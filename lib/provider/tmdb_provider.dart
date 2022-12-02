@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:tmdb_api/models/get_movie_model.dart';
+import 'package:tmdb_api/models/movie_casts_model.dart';
 import 'package:tmdb_api/models/movies_model.dart';
+
 import 'package:tmdb_api/models/tv_series_model.dart';
 import 'package:tmdb_api/services/tmdb_services.dart';
 
@@ -33,18 +35,27 @@ class TmdbProvider with ChangeNotifier{
 
   getGetMovieData({required String movie_id,required int index}) async {
     isGetMovieResponseLoading=true;
-    getmovieResponse=(await getCurrentGetMovieData(movie_id: movie_id))!;
+    getmovieResponse=(await getCurrentGetMovieData(movie_id: movie_id, ))!;
     isGetMovieResponseLoading=false;
     print(getmovieResponse);
     notifyListeners();
   }
-  changingMovieId(id){
-    movie_id=id;
-  }
-  changingMovieIndex(movieIndex){
-    index=movieIndex;
+
+
+  MovieCastsModel movieCastResponse=MovieCastsModel();
+  bool isMovieCastLoading=true;
+
+  String? movie_ids;
+  int? indexes;
+
+  getMovieCastData({required String movie_ids,required int indexes}) async {
+    isMovieCastLoading=true;
+    movieCastResponse=(await getCurrentMovieCastData(movie_ids: movie_ids, ))!;
+    isMovieCastLoading=false;
+    print(movieCastResponse);
+    notifyListeners();
   }
 
+  
  
 }
-

@@ -1,6 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:tmdb_api/models/get_movie_model.dart';
+import 'package:tmdb_api/models/movie_casts_model.dart';
 import 'package:tmdb_api/models/movies_model.dart';
+
 import 'package:tmdb_api/models/tv_series_model.dart';
 
 //https://developers.themoviedb.org/3/movies/get-popular-movies
@@ -57,4 +59,23 @@ Future<GetMovieModel?> getCurrentGetMovieData({required String? movie_id}) async
   } catch (e) {}
 
 }
+//https://developers.themoviedb.org/3/movies/get-movie-credits
+//main casts
 
+final Dio _dio4=Dio(BaseOptions(
+  baseUrl: "https://api.themoviedb.org/3/movie/",
+  connectTimeout: 5000,
+  receiveTimeout: 3000,
+));
+Future<MovieCastsModel?> getCurrentMovieCastData({required dynamic movie_ids}) async{
+    MovieCastsModel movieCastsTesponse;
+    try {
+    final response = await _dio4
+        .get("${movie_ids.toString()}/credits?api_key=9c6ac40cb2e7c6e33a57a0e49d6bee75&language=en-US");
+    movieCastsTesponse = MovieCastsModel.fromJson(response.data);
+    print(response.data);
+    return movieCastsTesponse;
+  } catch (e) {}
+}
+//https://developers.themoviedb.org/3/movies/get-similar-movies
+//Simillar Movie
