@@ -1,16 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:provider/provider.dart';
 import 'package:tmdb_api/pages/homescreen.dart';
 
+import '../provider/tmdb_provider.dart';
+
 class DetailsScreen extends StatefulWidget {
-  const DetailsScreen({super.key});
+  const DetailsScreen({super.key, required this.movie_id, required this.index,});
+  final String movie_id;
+  final int index;
+  
 
   @override
   State<DetailsScreen> createState() => _DetailsScreenState();
 }
 
+
 class _DetailsScreenState extends State<DetailsScreen> {
+
+  @override
+  void initState() {
+    // TODO: implement initState
+   print(widget.movie_id);
+    Provider.of<TmdbProvider>(context,listen: false).getGetMovieData(movie_id: widget.movie_id, index: widget.index);
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,16 +40,21 @@ class _DetailsScreenState extends State<DetailsScreen> {
                   width: MediaQuery.of(context).size.width,
                   height: 500,
                 ),
-                Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: 460,
-                    decoration: BoxDecoration(
-                                        image: DecorationImage(
-                                          image:AssetImage("assets/Rectangle22.png"),
-                                          fit: BoxFit.cover,
-                                        ),
-                                       ),
-                  ),
+                Consumer(
+                   builder: (context, TmdbProvider movieProvider, child) =>
+                          movieProvider.isMoviesResponseLoading == true
+                              ? CircularProgressIndicator():
+                   Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: 460,
+                      decoration: BoxDecoration(
+                                          image: DecorationImage(
+                                            image:NetworkImage("https://image.tmdb.org/t/p/w600_and_h900_bestv2/${movieProvider.moviesResponse.results![widget.index].posterPath}"),
+                                            fit: BoxFit.cover,
+                                          ),
+                                         ),
+                    ),
+                ),
                   Padding(
                     padding: const EdgeInsets.only(top:40,right: 20,left: 20),
                     child: Row(
@@ -44,11 +64,11 @@ class _DetailsScreenState extends State<DetailsScreen> {
                         children: [
                           GestureDetector(
                             onTap: (){
-                               Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeScreen()));
+                              Navigator.pop(context);
                             },
                             child: Icon(Icons.arrow_back_rounded,size: 24,color: Colors.white,)),
                           SizedBox(width: 10,),
-                          Text("Back",style: TextStyle(color:Colors.white,fontSize: 16,fontWeight: FontWeight.bold),)
+                          Text("Go Back",style: TextStyle(color:Colors.white,fontSize: 16,fontWeight: FontWeight.bold),)
                         ],
                       ),
                       Container(
@@ -83,7 +103,11 @@ class _DetailsScreenState extends State<DetailsScreen> {
                      Positioned(
                        bottom: 40,
                        left: 120,
-                       child: Text("The Unforgivable (2021)",style: TextStyle(color:Colors.white,fontSize: 22,fontWeight: FontWeight.bold),),
+                       child: Consumer(
+                         builder: (context, TmdbProvider movieProvider, child) =>
+                          movieProvider.isMoviesResponseLoading == true
+                              ? CircularProgressIndicator():
+                         Text(movieProvider.moviesResponse.results![widget.index].originalTitle![0].toString(),style: TextStyle(color:Colors.white,fontSize: 22,fontWeight: FontWeight.bold),)),
                      ),
                    Positioned(
                      bottom: 18,
