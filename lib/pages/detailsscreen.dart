@@ -26,6 +26,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
    print(widget.movie_id);
     Provider.of<TmdbProvider>(context,listen: false).getGetMovieData(movie_id: widget.movie_id, index: widget.index);
     Provider.of<TmdbProvider>(context,listen: false).getMovieCastData(movie_ids: widget.movie_id, indexes: widget.index);
+    Provider.of<TmdbProvider>(context,listen: false).getSimilarMovieData(movie_id1: widget.movie_id, index1: widget.index);
     super.initState();
   }
   @override
@@ -251,29 +252,37 @@ class _DetailsScreenState extends State<DetailsScreen> {
 
                  Padding(
                  padding: const EdgeInsets.only(top:20,left: 20),
-                 child: Container(
-                  width: double.infinity,
-                  height: 31,
-                
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: 3,
-                    itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.only(right: 10),
-                      child: Container(
-                        alignment: Alignment.center,
-                        width: 79,
-                        
-                        decoration: BoxDecoration(
-                          color: Color(0xff303243),
-                          borderRadius: BorderRadius.circular(70)
-                        ),
-                        child: Text("Drama",style: TextStyle(color:Colors.white.withOpacity(0.5),fontSize: 16,fontWeight: FontWeight.w400),),
-                      ),
-                    );
-                  },),
-                 ),
+                 child: 
+                  
+                    Consumer(
+                       builder: (context, TmdbProvider movieCategoryProvider, child) =>
+                          movieCategoryProvider.isGetMovieResponseLoading == true
+                              ? CircularProgressIndicator():
+                               Container(
+                      width: double.infinity,
+                      height: 40,
+                                   
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: movieCategoryProvider.getmovieResponse.genres?.length,
+                        itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.only(right: 10),
+                          child: Container(
+                            alignment: Alignment.center,
+                            width: 130,
+                            
+                            decoration: BoxDecoration(
+                              color: Color(0xff303243),
+                              borderRadius: BorderRadius.circular(70)
+                            ),
+                            child: Text(movieCategoryProvider.getmovieResponse.genres![index].name!.isEmpty?"Category":movieCategoryProvider.getmovieResponse.genres![index].name.toString(),style: TextStyle(color:Colors.white.withOpacity(0.5),fontSize: 16,fontWeight: FontWeight.w400),),
+                          ),
+                        );
+                      },),
+                                       ),
+                    ),
+                 
                ),
                 Padding(
                  padding: const EdgeInsets.only(top: 20,left:25),
@@ -283,30 +292,35 @@ class _DetailsScreenState extends State<DetailsScreen> {
                Padding(
                  padding: const EdgeInsets.only(left:25),
                  child:
-              Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: 188,
-                    child: ListView.builder(
-                      physics: BouncingScrollPhysics(),
-                      shrinkWrap: true,
-                      itemCount: 8,
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.only(top:20,right: 10),
-                        child: Container(
-                          width: 128,
-                          height: 188,
-                          decoration: BoxDecoration(
-                                              image: DecorationImage(
-                                                image:AssetImage("assets/image3.png"),
-                                                fit: BoxFit.fill,
-                                              ),
-                                              borderRadius: BorderRadius.circular(8)),
-                        ),
-                      );
-                    },),
-                   ),
+              Consumer(
+                 builder: (context, TmdbProvider similarMovieProvider, child) =>
+                          similarMovieProvider.isSimilarMovieLoading == true
+                              ? CircularProgressIndicator():
+                Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: 188,
+                      child: ListView.builder(
+                        physics: BouncingScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: 8,
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.only(top:20,right: 10),
+                          child: Container(
+                            width: 128,
+                            height: 188,
+                            decoration: BoxDecoration(
+                                                image: DecorationImage(
+                                                  image:NetworkImage("https://image.tmdb.org/t/p/w600_and_h900_bestv2/${similarMovieProvider.similarMovieResponse.results![index].posterPath}"),
+                                                  fit: BoxFit.fill,
+                                                ),
+                                                borderRadius: BorderRadius.circular(8)),
+                          ),
+                        );
+                      },),
+                     ),
+              ),
                  ),
                   
       

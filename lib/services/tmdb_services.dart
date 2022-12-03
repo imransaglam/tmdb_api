@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:tmdb_api/models/get_movie_model.dart';
 import 'package:tmdb_api/models/movie_casts_model.dart';
 import 'package:tmdb_api/models/movies_model.dart';
+import 'package:tmdb_api/models/similar_movie_model.dart';
 
 import 'package:tmdb_api/models/tv_series_model.dart';
 
@@ -79,3 +80,18 @@ Future<MovieCastsModel?> getCurrentMovieCastData({required dynamic movie_ids}) a
 }
 //https://developers.themoviedb.org/3/movies/get-similar-movies
 //Simillar Movie
+final Dio _dio5=Dio(BaseOptions(
+  baseUrl: "https://api.themoviedb.org/3/movie/",
+  connectTimeout: 5000,
+  receiveTimeout: 3000,
+));
+Future<SimilarMovieModel?> getCurrentSimilarMovie({required String movie_id1})async{
+  SimilarMovieModel similarMovieResponse;
+  try{
+    final response=await _dio5
+    .get("$movie_id1/similar?api_key=9c6ac40cb2e7c6e33a57a0e49d6bee75&language=en-US&page=1");
+    similarMovieResponse=SimilarMovieModel.fromJson(response.data);
+    print(response.data);
+    return similarMovieResponse;
+  } catch(e){}
+}

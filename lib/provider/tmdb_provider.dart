@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tmdb_api/models/get_movie_model.dart';
 import 'package:tmdb_api/models/movie_casts_model.dart';
 import 'package:tmdb_api/models/movies_model.dart';
+import 'package:tmdb_api/models/similar_movie_model.dart';
 
 import 'package:tmdb_api/models/tv_series_model.dart';
 import 'package:tmdb_api/services/tmdb_services.dart';
@@ -55,6 +56,21 @@ class TmdbProvider with ChangeNotifier{
     print(movieCastResponse);
     notifyListeners();
   }
+
+  SimilarMovieModel similarMovieResponse=SimilarMovieModel();
+  bool isSimilarMovieLoading=true;
+
+  String? movie_id1;
+  int? index1;
+
+  getSimilarMovieData({required String movie_id1,required int index1}) async {
+    isSimilarMovieLoading=true;
+    similarMovieResponse=(await getCurrentSimilarMovie(movie_id1: movie_id1, ))!;
+    isSimilarMovieLoading=false;
+    print(similarMovieResponse);
+    notifyListeners();
+  }
+
 
   
  
