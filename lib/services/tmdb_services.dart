@@ -1,8 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:tmdb_api/models/get_movie_model.dart';
+import 'package:tmdb_api/models/get_tv_series_model.dart';
 import 'package:tmdb_api/models/movie_casts_model.dart';
 import 'package:tmdb_api/models/movies_model.dart';
 import 'package:tmdb_api/models/similar_movie_model.dart';
+import 'package:tmdb_api/models/tv_Series_cast_model.dart';
 
 import 'package:tmdb_api/models/tv_series_model.dart';
 
@@ -60,8 +62,25 @@ Future<GetMovieModel?> getCurrentGetMovieData({required String? movie_id}) async
   } catch (e) {}
 
 }
+//https://developers.themoviedb.org/3/tv/get-tv-details
+//Get Tv Deries
+final Dio _dio6 = Dio(BaseOptions(
+  baseUrl: "https://api.themoviedb.org/3/tv/",
+  connectTimeout: 5000,
+  receiveTimeout: 3000,
+));
+Future<GetTvSeriesModel?> getCurrentGetTvSeriesData({required String? tv_id}) async {
+  GetTvSeriesModel getTvSeriesResponse;
+  try {
+    final response = await _dio6
+        .get("$tv_id?api_key=9c6ac40cb2e7c6e33a57a0e49d6bee75&language=en-US");
+    getTvSeriesResponse = GetTvSeriesModel.fromJson(response.data);
+    print(response.data);
+    return getTvSeriesResponse;
+  } catch (e) {}
+}
 //https://developers.themoviedb.org/3/movies/get-movie-credits
-//main casts
+// movie main casts
 
 final Dio _dio4=Dio(BaseOptions(
   baseUrl: "https://api.themoviedb.org/3/movie/",
@@ -78,6 +97,28 @@ Future<MovieCastsModel?> getCurrentMovieCastData({required dynamic movie_ids}) a
     return movieCastsTesponse;
   } catch (e) {}
 }
+//https://developers.themoviedb.org/3/tv/get-tv-credits
+//tv main casts
+
+final Dio _dio7=Dio(BaseOptions(
+  baseUrl: "https://api.themoviedb.org/3/tv/",
+  connectTimeout: 5000,
+  receiveTimeout: 3000,
+));
+
+Future<TvSeriesCastModel?> getCurrentTvCastData({required tv_ids}) async{
+    TvSeriesCastModel tvCastsTesponse;
+    try {
+    final response = await _dio7
+        .get("$tv_ids/credits?api_key=9c6ac40cb2e7c6e33a57a0e49d6bee75&language=en-US");
+    tvCastsTesponse = TvSeriesCastModel.fromJson(response.data);
+    print(response.data);
+    return tvCastsTesponse;
+  } catch (e) {}
+}
+
+
+
 //https://developers.themoviedb.org/3/movies/get-similar-movies
 //Simillar Movie
 final Dio _dio5=Dio(BaseOptions(

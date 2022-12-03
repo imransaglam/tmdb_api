@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tmdb_api/pages/detailsscreen.dart';
+import 'package:tmdb_api/pages/tvdetailsscreen.dart';
 import 'package:tmdb_api/provider/tmdb_provider.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -134,58 +135,65 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 10),
-                  child: Consumer(
-                      builder: (context, TmdbProvider movieProvider, child) =>
-                          movieProvider.isMoviesResponseLoading == true
-                              ? CircularProgressIndicator()
-                              : Container(
-                                  width: MediaQuery.of(context).size.width,
-                                  height: 188,
-                                  child: ListView.builder(
-                                    shrinkWrap: true,
-                                    itemCount: movieProvider
-                                        .moviesResponse.results!.length,
-                                    scrollDirection: Axis.horizontal,
-                                    itemBuilder: (context, index) {
-                                      return Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: 20, right: 10),
-                                        child: GestureDetector(
-                                          onTap: () {
-                                            Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      DetailsScreen(
-                                                          movie_id:
-                                                              '${movieProvider.moviesResponse.results![index].id}',
-                                                          index: index,),
-                                                ));
-                                          },
-                                          child: Container(
-                                            width: 128,
-                                            height: 188,
-                                            decoration: BoxDecoration(
-                                                image: DecorationImage(
-                                                  image: NetworkImage(
-                                                      "https://image.tmdb.org/t/p/w600_and_h900_bestv2/${movieProvider.moviesResponse.results![index].posterPath}"),
-                                                  fit: BoxFit.fill,
-                                                ),
-                                                borderRadius:
-                                                    BorderRadius.circular(8)),
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                )),
+                  Padding(
+                  padding: const EdgeInsets.only(top: 20),
+                  child: Text(
+                    "Most Popular Movies",
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold),
+                  ),
                 ),
+                Consumer(
+                    builder: (context, TmdbProvider movieProvider, child) =>
+                        movieProvider.isMoviesResponseLoading == true
+                            ? CircularProgressIndicator()
+                            : Container(
+                                width: MediaQuery.of(context).size.width,
+                                height: 188,
+                                child: ListView.builder(
+                                  shrinkWrap: true,
+                                  itemCount: movieProvider
+                                      .moviesResponse.results!.length,
+                                  scrollDirection: Axis.horizontal,
+                                  itemBuilder: (context, index) {
+                                    return Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 20, right: 10),
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    DetailsScreen(
+                                                        movie_id:
+                                                            '${movieProvider.moviesResponse.results![index].id}',
+                                                        index: index,),
+                                              ));
+                                        },
+                                        child: Container(
+                                          width: 128,
+                                          height: 188,
+                                          decoration: BoxDecoration(
+                                              image: DecorationImage(
+                                                image: NetworkImage(
+                                                    "https://image.tmdb.org/t/p/w600_and_h900_bestv2/${movieProvider.moviesResponse.results![index].posterPath}"),
+                                                fit: BoxFit.fill,
+                                              ),
+                                              borderRadius:
+                                                  BorderRadius.circular(8)),
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
+                              )),
                 Padding(
                   padding: const EdgeInsets.only(top: 20),
                   child: Text(
-                    "Most Popular",
+                    "Most Popular Tv Series",
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 18,
@@ -208,17 +216,30 @@ class _HomeScreenState extends State<HomeScreen> {
                                   return Padding(
                                     padding: const EdgeInsets.only(
                                         top: 20, right: 10),
-                                    child: Container(
-                                      width: 128,
-                                      height: 188,
-                                      decoration: BoxDecoration(
-                                          image: DecorationImage(
-                                            image: NetworkImage(
-                                                "https://image.tmdb.org/t/p/w600_and_h900_bestv2/${tvSeriesProvider.tvSeriesResponse.results![index].posterPath}"),
-                                            fit: BoxFit.fill,
-                                          ),
-                                          borderRadius:
-                                              BorderRadius.circular(8)),
+                                    child: GestureDetector(
+                                      onTap: (){
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    TvDetailsScreen(
+                                                        tv_id:
+                                                            '${tvSeriesProvider.tvSeriesResponse.results![index].id}',
+                                                        index: index,),
+                                              ));
+                                      },
+                                      child: Container(
+                                        width: 128,
+                                        height: 188,
+                                        decoration: BoxDecoration(
+                                            image: DecorationImage(
+                                              image: NetworkImage(
+                                                  "https://image.tmdb.org/t/p/w600_and_h900_bestv2/${tvSeriesProvider.tvSeriesResponse.results![index].posterPath}"),
+                                              fit: BoxFit.fill,
+                                            ),
+                                            borderRadius:
+                                                BorderRadius.circular(8)),
+                                      ),
                                     ),
                                   );
                                 },

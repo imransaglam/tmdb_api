@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:tmdb_api/models/get_movie_model.dart';
+import 'package:tmdb_api/models/get_tv_series_model.dart';
 import 'package:tmdb_api/models/movie_casts_model.dart';
 import 'package:tmdb_api/models/movies_model.dart';
 import 'package:tmdb_api/models/similar_movie_model.dart';
+import 'package:tmdb_api/models/tv_Series_cast_model.dart';
 
 import 'package:tmdb_api/models/tv_series_model.dart';
 import 'package:tmdb_api/services/tmdb_services.dart';
@@ -71,6 +73,36 @@ class TmdbProvider with ChangeNotifier{
     notifyListeners();
   }
 
+
+
+ GetTvSeriesModel getTvSeriesResponse=GetTvSeriesModel();
+  bool isgetTvSeriesLoading=true;
+
+  String? tv_id;
+  int? tv_index;
+
+  getGetTvSeriesData({required String tv_id,required int tv_index}) async {
+    isgetTvSeriesLoading=true;
+    getTvSeriesResponse=(await getCurrentGetTvSeriesData(tv_id: tv_id, ))!;
+    isgetTvSeriesLoading=false;
+    print(getTvSeriesResponse);
+    notifyListeners();
+  }
+
+
+  TvSeriesCastModel tvCastResponse=TvSeriesCastModel();
+  bool isTvCastLoading=true;
+
+  String? tv_ids;
+  int? tv_indexes;
+
+  getTvCastData({required String tv_ids,required int tv_indexes}) async {
+    isTvCastLoading=true;
+    tvCastResponse=(await getCurrentTvCastData(tv_ids: tv_ids, ))!;
+    isTvCastLoading=false;
+    print(movieCastResponse);
+    notifyListeners();
+  }
 
   
  
