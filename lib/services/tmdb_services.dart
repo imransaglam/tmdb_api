@@ -4,6 +4,7 @@ import 'package:tmdb_api/models/get_tv_series_model.dart';
 import 'package:tmdb_api/models/movie_casts_model.dart';
 import 'package:tmdb_api/models/movies_model.dart';
 import 'package:tmdb_api/models/similar_movie_model.dart';
+import 'package:tmdb_api/models/similar_tv_series_model.dart';
 import 'package:tmdb_api/models/tv_Series_cast_model.dart';
 
 import 'package:tmdb_api/models/tv_series_model.dart';
@@ -46,6 +47,7 @@ Future<PopularTvSeriesModel?> getCurrentTvSeriesData() async {
 }
 //https://developers.themoviedb.org/3/movies/get-movie-details
 //Get Movie
+//Catgeories
 final Dio _dio3 = Dio(BaseOptions(
   baseUrl: "https://api.themoviedb.org/3/movie/",
   connectTimeout: 5000,
@@ -63,7 +65,8 @@ Future<GetMovieModel?> getCurrentGetMovieData({required String? movie_id}) async
 
 }
 //https://developers.themoviedb.org/3/tv/get-tv-details
-//Get Tv Deries
+//Get Tv Series
+//Categories
 final Dio _dio6 = Dio(BaseOptions(
   baseUrl: "https://api.themoviedb.org/3/tv/",
   connectTimeout: 5000,
@@ -135,4 +138,22 @@ Future<SimilarMovieModel?> getCurrentSimilarMovie({required String movie_id1})as
     print(response.data);
     return similarMovieResponse;
   } catch(e){}
+}
+
+//https://developers.themoviedb.org/3/tv/get-similar-tv-shows
+//Similar tv series
+final Dio _dio8=Dio(BaseOptions(
+  baseUrl: "https://api.themoviedb.org/3/tv/",
+  connectTimeout: 5000,
+  receiveTimeout: 3000,
+));
+Future<SimilarTvSeriesModel?> getCurrentSimilarTv({required String tv_id2})async{
+  SimilarTvSeriesModel similarTvResponse;
+  try{
+    final response=await _dio8
+    .get("$tv_id2/similar?api_key=9c6ac40cb2e7c6e33a57a0e49d6bee75&language=en-US&page=1");
+    similarTvResponse=SimilarTvSeriesModel.fromJson(response.data);
+    print(response.data);
+    return similarTvResponse;
+  }catch(e){}
 }

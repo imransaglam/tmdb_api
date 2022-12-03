@@ -4,6 +4,7 @@ import 'package:tmdb_api/models/get_tv_series_model.dart';
 import 'package:tmdb_api/models/movie_casts_model.dart';
 import 'package:tmdb_api/models/movies_model.dart';
 import 'package:tmdb_api/models/similar_movie_model.dart';
+import 'package:tmdb_api/models/similar_tv_series_model.dart';
 import 'package:tmdb_api/models/tv_Series_cast_model.dart';
 
 import 'package:tmdb_api/models/tv_series_model.dart';
@@ -85,7 +86,7 @@ class TmdbProvider with ChangeNotifier{
     isgetTvSeriesLoading=true;
     getTvSeriesResponse=(await getCurrentGetTvSeriesData(tv_id: tv_id, ))!;
     isgetTvSeriesLoading=false;
-    print(getTvSeriesResponse);
+    print(getTvSeriesResponse.genres);
     notifyListeners();
   }
 
@@ -104,6 +105,19 @@ class TmdbProvider with ChangeNotifier{
     notifyListeners();
   }
 
+  SimilarTvSeriesModel similarTvSeriesResponse=SimilarTvSeriesModel();
+  bool isSimilarTvLoading=true;
+  
+   String? tv_id2;
+  int? tv_index2;
+
+  getSimilarTvData({required String tv_id2,required int tv_index2}) async {
+  isSimilarTvLoading=true;
+  similarTvSeriesResponse=(await getCurrentSimilarTv(tv_id2: tv_id2, ))!;
+  isSimilarTvLoading=false;
+  print(similarTvSeriesResponse);
+  notifyListeners();
+  }
   
  
 }
