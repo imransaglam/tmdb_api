@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:tmdb_api/models/get_movie_model.dart';
-import 'package:tmdb_api/models/get_tv_series_model.dart';
+
 import 'package:tmdb_api/models/movie_casts_model.dart';
 import 'package:tmdb_api/models/movies_model.dart';
+import 'package:tmdb_api/models/search_movie_model.dart';
 import 'package:tmdb_api/models/similar_movie_model.dart';
 import 'package:tmdb_api/models/similar_tv_series_model.dart';
 import 'package:tmdb_api/models/tv_Series_cast_model.dart';
@@ -76,21 +77,6 @@ class TmdbProvider with ChangeNotifier{
 
 
 
- GetTvSeriesModel getTvSeriesResponse=GetTvSeriesModel();
-  bool isgetTvSeriesLoading=true;
-
-  String? tv_id;
-  int? tv_index;
-
-  getGetTvSeriesData({required String tv_id,required int tv_index}) async {
-    isgetTvSeriesLoading=true;
-    getTvSeriesResponse=(await getCurrentGetTvSeriesData(tv_id: tv_id, ))!;
-    isgetTvSeriesLoading=false;
-    print(getTvSeriesResponse.genres);
-    notifyListeners();
-  }
-
-
   TvSeriesCastModel tvCastResponse=TvSeriesCastModel();
   bool isTvCastLoading=true;
 
@@ -119,5 +105,20 @@ class TmdbProvider with ChangeNotifier{
   notifyListeners();
   }
   
+  SearchMovieModel searchMovieResponse=SearchMovieModel();
+    // isSearchMovieLoading=true;
+  String query = "The";
  
+ getSearchMovieData()async{
+  //isSearchMovieLoading=true;
+searchMovieResponse=(await getCurrentSearchMovie(query: query))!;
+//isSearchMovieLoading=false;
+ print(searchMovieResponse);
+notifyListeners();
+ }
+ getQuery({required String query}){
+ this.query=query;
+ getSearchMovieData();
+ notifyListeners();
+ }
 }

@@ -25,12 +25,10 @@ class _TvDetailsScreenState extends State<TvDetailsScreen> {
     // TODO: implement initState
     print(widget.tv_id);
     Provider.of<TmdbProvider>(context, listen: false)
-        .getGetTvSeriesData(tv_id: widget.tv_id, tv_index: widget.index);
-    Provider.of<TmdbProvider>(context, listen: false)
         .getTvCastData(tv_ids: widget.tv_id, tv_indexes: widget.index);
     Provider.of<TmdbProvider>(context,listen: false)
         .getSimilarTvData(tv_id2: widget.tv_id, tv_index2:widget.index);   
-    super.initState();
+   
   }
 
   @override
@@ -339,52 +337,7 @@ class _TvDetailsScreenState extends State<TvDetailsScreen> {
                           ),
               ),
             ),
-            // Padding(
-            //   padding: const EdgeInsets.only(right: 25, left: 25),
-            //   child: Text(
-            //     "Categories",
-            //     style: TextStyle(
-            //         color: Colors.white,
-            //         fontSize: 18,
-            //         fontWeight: FontWeight.bold),
-            //   ),
-            // ),
-            // Padding(
-            //   padding: const EdgeInsets.only(top: 20, left: 20),
-            //   child: Consumer(
-            //     builder: (context, TmdbProvider tvCategoryProvider, child) =>
-            //         tvCategoryProvider.isgetTvSeriesLoading == true
-            //             ? CircularProgressIndicator()
-            //             : Container(
-            //                 width: double.infinity,
-            //                 height: 40,
-            //                 child: ListView.builder(
-            //                   scrollDirection: Axis.horizontal,
-            //                   itemCount:tvCategoryProvider.getTvSeriesResponse.genres?.length ,
-            //                   itemBuilder: (context, index) {
-            //                     return Padding(
-            //                       padding: const EdgeInsets.only(right: 10),
-            //                       child: Container(
-            //                         alignment: Alignment.center,
-            //                         width: 130,
-            //                         decoration: BoxDecoration(
-            //                             color: Color(0xff303243),
-            //                             borderRadius:
-            //                                 BorderRadius.circular(70)),
-            //                         child: Text(
-            //                          tvCategoryProvider.getTvSeriesResponse.genres![index].name!.isEmpty?"Category":tvCategoryProvider.getTvSeriesResponse.genres![index].name.toString(),
-            //                           style: TextStyle(
-            //                               color: Colors.white.withOpacity(0.5),
-            //                               fontSize: 16,
-            //                               fontWeight: FontWeight.w400),
-            //                         ),
-            //                       ),
-            //                     );
-            //                   },
-            //                 ),
-            //               ),
-            //   ),
-            // ),
+     
             Padding(
               padding: const EdgeInsets.only(top: 20, left: 25),
               child: Text(

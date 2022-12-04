@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:tmdb_api/models/get_movie_model.dart';
-import 'package:tmdb_api/models/get_tv_series_model.dart';
 import 'package:tmdb_api/models/movie_casts_model.dart';
 import 'package:tmdb_api/models/movies_model.dart';
+import 'package:tmdb_api/models/search_movie_model.dart';
 import 'package:tmdb_api/models/similar_movie_model.dart';
 import 'package:tmdb_api/models/similar_tv_series_model.dart';
 import 'package:tmdb_api/models/tv_Series_cast_model.dart';
@@ -64,24 +64,7 @@ Future<GetMovieModel?> getCurrentGetMovieData({required String? movie_id}) async
   } catch (e) {}
 
 }
-//https://developers.themoviedb.org/3/tv/get-tv-details
-//Get Tv Series
-//Categories
-final Dio _dio6 = Dio(BaseOptions(
-  baseUrl: "https://api.themoviedb.org/3/tv/",
-  connectTimeout: 5000,
-  receiveTimeout: 3000,
-));
-Future<GetTvSeriesModel?> getCurrentGetTvSeriesData({required String? tv_id}) async {
-  GetTvSeriesModel getTvSeriesResponse;
-  try {
-    final response = await _dio6
-        .get("$tv_id?api_key=9c6ac40cb2e7c6e33a57a0e49d6bee75&language=en-US");
-    getTvSeriesResponse = GetTvSeriesModel.fromJson(response.data);
-    print(response.data);
-    return getTvSeriesResponse;
-  } catch (e) {}
-}
+
 //https://developers.themoviedb.org/3/movies/get-movie-credits
 // movie main casts
 
@@ -155,5 +138,22 @@ Future<SimilarTvSeriesModel?> getCurrentSimilarTv({required String tv_id2})async
     similarTvResponse=SimilarTvSeriesModel.fromJson(response.data);
     print(response.data);
     return similarTvResponse;
+  }catch(e){}
+}
+//https://developers.themoviedb.org/3/search/search-movies
+//search movie
+final Dio _dio9=Dio(BaseOptions(
+  baseUrl: "https://api.themoviedb.org/3/search/",
+  connectTimeout: 5000,
+  receiveTimeout: 3000,
+));
+Future<SearchMovieModel?> getCurrentSearchMovie({required String query})async{
+  SearchMovieModel searchMovieResponse;
+  try{
+    final response=await _dio9
+    .get("movie?api_key=6ea7b819cfc7cf82e10a6426b439ca9a&language=en-US&page=1&query=$query'");
+    searchMovieResponse=SearchMovieModel.fromJson(response.data);
+    print(response.data);
+    return searchMovieResponse;
   }catch(e){}
 }

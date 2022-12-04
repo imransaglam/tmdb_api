@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tmdb_api/pages/detailsscreen.dart';
+import 'package:tmdb_api/pages/searchscreen.dart';
 import 'package:tmdb_api/pages/tvdetailsscreen.dart';
 import 'package:tmdb_api/provider/tmdb_provider.dart';
 
@@ -68,32 +69,42 @@ class _HomeScreenState extends State<HomeScreen> {
                                 fit: BoxFit.cover)),
                       ),
                     ]),
-                Padding(
-                  padding: const EdgeInsets.only(top: 30, left: 20, right: 20),
+                    Padding(
+                 padding: const EdgeInsets.only(top: 30, left: 20, right: 20),
+                child: GestureDetector(
+                   onTap: (){
+                      Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const SearchSecreen()),
+                                );
+                    },
                   child: Container(
                     width: 300,
-                    height: 55,
-                    child: TextFormField(
-                      decoration: InputDecoration(
-                        filled: true,
-                        fillColor: Color(0xff36076B).withOpacity(0.3),
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(32),
-                            borderSide: BorderSide.none),
-                        contentPadding: EdgeInsets.only(left: 10),
-                        hintText: "Search",
-                        hintStyle: TextStyle(
-                            color: Colors.white,
-                            fontSize: 15,
-                            fontWeight: FontWeight.w500),
-                        suffixIcon: Icon(
-                          Icons.search_sharp,
-                          color: Colors.white,
-                        ),
-                      ),
+                    height: 45,
+                    decoration: BoxDecoration(
+                      color: Color(0xff36076B).withOpacity(0.3),
+                      borderRadius: BorderRadius.circular(32),
                     ),
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 10,right: 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text( "Search",style: TextStyle( color: Colors.white,
+                              fontSize: 15,
+                              fontWeight: FontWeight.w500),),
+                              Icon(
+                            Icons.search_sharp,
+                            color: Colors.white,
+                          ),
+                        ],
+                      ),
+                    )
                   ),
                 ),
+              ),
+              
                 Padding(
                   padding: const EdgeInsets.only(top: 20),
                   child: Container(
