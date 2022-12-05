@@ -190,7 +190,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                           decoration: BoxDecoration(
                                               image: DecorationImage(
                                                 image: NetworkImage(
-                                                    "https://image.tmdb.org/t/p/w600_and_h900_bestv2/${movieProvider.moviesResponse.results![index].posterPath}"),
+                                                   "https://image.tmdb.org/t/p/w600_and_h900_bestv2/${movieProvider.moviesResponse.results![index].posterPath}"),
                                                 fit: BoxFit.fill,
                                               ),
                                               borderRadius:

@@ -17,7 +17,7 @@ class _SearchSecreenState extends State<SearchSecreen> {
     // TODO: implement initState
        TmdbProvider movieSerachProvider =
         Provider.of<TmdbProvider>(context, listen: false);
-    movieSerachProvider.getSearchMovieData();
+    movieSerachProvider.getSearchMovieData("the");
     super.initState();
   }
   @override
@@ -25,9 +25,9 @@ class _SearchSecreenState extends State<SearchSecreen> {
     return Scaffold(
         body: Consumer(
            builder: (context, TmdbProvider searchingMovieProvider, child) =>
-                         // searchingMovieProvider.isSearchMovieLoading == true
-                           //   ? CircularProgressIndicator()
-                         //: 
+                         searchingMovieProvider.isSearchMovieLoading == true
+                            ? CircularProgressIndicator()
+                         : 
                               Container(
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height,
@@ -76,10 +76,10 @@ class _SearchSecreenState extends State<SearchSecreen> {
                     child: TextFormField(
                       onChanged: (value) {
                                 if (value.isEmpty) {
-                                  searchingMovieProvider.getQuery(query: 'The');
+                                  searchingMovieProvider.getSearchMovieData( 'The');
                                 }
                                 else{
-                                  searchingMovieProvider.getQuery(query: value);
+                                  searchingMovieProvider.getSearchMovieData( value);
                                 }
                                 
                               },
@@ -133,7 +133,7 @@ class _SearchSecreenState extends State<SearchSecreen> {
                                                   decoration: BoxDecoration(
                                                       image: DecorationImage(
                                                         image: NetworkImage(
-                                                          'https://image.tmdb.org/t/p/w600_and_h900_bestv2/${searchingMovieProvider.searchMovieResponse.results![index].posterPath}'
+                                                          searchingMovieProvider.searchMovieResponse.results!.isEmpty?"https://pbs.twimg.com/profile_images/1243623122089041920/gVZIvphd_400x400.jpg":'https://image.tmdb.org/t/p/w600_and_h900_bestv2/${searchingMovieProvider.searchMovieResponse.results![index].posterPath}'
                                                             ),
                                                         fit: BoxFit.fill,
                                                       ),

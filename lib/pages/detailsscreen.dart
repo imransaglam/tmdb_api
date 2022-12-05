@@ -195,14 +195,14 @@ class _DetailsScreenState extends State<DetailsScreen> {
                  padding: const EdgeInsets.only(left: 15),
                  child: Consumer(
                    builder: (context, TmdbProvider movieCastProvider, child) =>
-                          movieCastProvider.isMoviesResponseLoading == true
+                          movieCastProvider.isMovieCastLoading == true
                               ? CircularProgressIndicator():
                     Container(
                     width: MediaQuery.of(context).size.width,
                     height: 120,
                     child: ListView.builder(
                       shrinkWrap: true,
-                      itemCount: movieCastProvider.movieCastResponse.cast!.length,
+                      itemCount: movieCastProvider.movieCastResponse.cast?.length,
                       scrollDirection: Axis.horizontal,
                       itemBuilder: (context, index) {
                       return Padding(
@@ -215,7 +215,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                               height: 60,
                               decoration: BoxDecoration(
                                                   image: DecorationImage(
-                                                    image:NetworkImage("https://image.tmdb.org/t/p/w600_and_h900_bestv2/${movieCastProvider.movieCastResponse.cast![index].profilePath}"),
+                                                    image:NetworkImage(movieCastProvider.movieCastResponse.cast![index].profilePath!.isEmpty?"https://pbs.twimg.com/profile_images/1243623122089041920/gVZIvphd_400x400.jpg":"https://image.tmdb.org/t/p/w600_and_h900_bestv2/${movieCastProvider.movieCastResponse.cast![index].profilePath}"),
                                                     fit: BoxFit.fill,
                                                   ),
                                                   border: Border.all(
@@ -303,7 +303,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                       child: ListView.builder(
                         physics: BouncingScrollPhysics(),
                         shrinkWrap: true,
-                        itemCount: 8,
+                        itemCount:similarMovieProvider.similarMovieResponse.results?.length,
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (context, index) {
                         return Padding(

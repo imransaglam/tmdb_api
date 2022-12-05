@@ -106,19 +106,13 @@ class TmdbProvider with ChangeNotifier{
   }
   
   SearchMovieModel searchMovieResponse=SearchMovieModel();
-    // isSearchMovieLoading=true;
-  String query = "The";
+  bool  isSearchMovieLoading=true;
  
- getSearchMovieData()async{
-  //isSearchMovieLoading=true;
+ getSearchMovieData( String query)async{
+  isSearchMovieLoading=true;
 searchMovieResponse=(await getCurrentSearchMovie(query: query))!;
-//isSearchMovieLoading=false;
- print(searchMovieResponse);
+isSearchMovieLoading=false;
 notifyListeners();
  }
- getQuery({required String query}){
- this.query=query;
- getSearchMovieData();
- notifyListeners();
- }
+
 }
